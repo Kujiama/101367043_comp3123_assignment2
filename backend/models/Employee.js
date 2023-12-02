@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 var EmployeeSchema = new mongoose.Schema({
 

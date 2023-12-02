@@ -1,9 +1,12 @@
-import express from "express";
+const express = require('express');
+const cors = require('cors');
+
 const app = express();
 const SERVER_PORT = 8484;
 
 
 //middleware
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
@@ -30,7 +33,7 @@ db.on("connected",()=>{
 
 //home route
 app.get("/",(req,res)=>{
-    res.send("<h1>Assignment 1 - Comp3123</h1><br><h2>By: Raul England Pelenio - 101367043</h2>");
+    res.send("<h1>Assignment 2 - Backend</h1>");
 });
 
 
