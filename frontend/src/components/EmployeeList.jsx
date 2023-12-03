@@ -2,8 +2,9 @@ import Table from "react-bootstrap/Table";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Nav from "./Nav";
 
-function EmployeeList() {
+function EmployeeList({logout}) {
   const [employees, setEmployeeList] = useState([]);
 
   useEffect(() => {
@@ -36,6 +37,7 @@ function EmployeeList() {
 
   return (
     <>
+      <Nav logout={logout}/>
       <h1>Assignment 2 - Crud Operations</h1>
       <div className="container">
         <div className="card">

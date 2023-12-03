@@ -25,18 +25,23 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          {
-            (loggedIn) ? 
-            <Route path="/" element={<EmployeeList logout={handleLogout}/>}/> 
-            :
-            <Route path="/" element={<Login loggedIn={handleLogin}/>}/>
-          }
-          <Route path="/Signup" element={<Signup />}/>
-          <Route path="/Employee/Add" element={<AddEmployee />}/>
-          <Route path="/Employee/Update/:id" element={<UpdateEmployee />}/>
-          <Route path="/Employee/Details/:id" element={<DetailsEmployee />}/>
+          {loggedIn ? (
+            <>
+              <Route path="/" element={<EmployeeList logout={handleLogout} />} />
+              <Route path="/Employee/Add" element={<AddEmployee />}/>
+              <Route path="/Employee/Update/:id" element={<UpdateEmployee />}/>
+              <Route path="/Employee/Details/:id" element={<DetailsEmployee />}/>
+            </>
+          ) : (
+            <>
+              <Route path="/" element={<Login loggedIn={handleLogin} />} />
+              <Route path="/signup" element={<Signup />} />
+            </>
+          )}
         </Routes>
       </BrowserRouter>
+
+      
     </div>
   );
 }

@@ -16,11 +16,11 @@ function Login({loggedIn}) {
 
         const loginResponse = await axios.post('http://localhost:8484/api/v1/user/login',{ email, password });
         if(loginResponse.status){
-          console.log('Login Success');
+          // console.log('Login Success');
           loggedIn(true);
           setLoginMsg('Login Success');
         }else{
-          console.log('Login Failed');
+          // console.log('Login Failed');
           loggedIn(false);
           setLoginMsg('Login Failed');
         }
@@ -53,13 +53,14 @@ function Login({loggedIn}) {
         <Form.Label>Password</Form.Label>
         <Form.Control type="password" placeholder="Password" onChange={e=>handlePasswordChange(e)}/>
       </Form.Group>
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
-
+      
       <Form.Text>
         Don't have an account? <Link to="/signup">Sign Up</Link>
       </Form.Text>
+
+      <Button variant="primary" className='m-2' type="submit">
+        Submit
+      </Button>
     </Form>
   );
 }

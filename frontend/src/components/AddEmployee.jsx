@@ -12,6 +12,8 @@ const AddEmployee = () => {
     email: "",
   });
 
+  const [addMsg, setAddMsg] = useState(""); // for displaying the message after adding an employee
+
   const onChangeFirstName = (e) => {
     setEmployee({
       ...employee,
@@ -50,6 +52,9 @@ const AddEmployee = () => {
         employeeObject
       );
 
+      // display the message
+      setAddMsg("Employee Added Successfully");
+
       // reset the state
       setEmployee({
         firstName: "",
@@ -57,7 +62,7 @@ const AddEmployee = () => {
         email: "",
       });
 
-      console.log(employeeObject);
+      // console.log(employeeObject);
     } catch (e) {
       console.error(e);
     }
@@ -112,6 +117,9 @@ const AddEmployee = () => {
           </Col>
         </Row>
       </Container>
+      <div className="d-flex justify-content-center mt-5">
+        <h3 className="text-success">{addMsg}</h3>
+      </div>
     </>
   );
 };

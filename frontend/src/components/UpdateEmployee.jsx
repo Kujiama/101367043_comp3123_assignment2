@@ -14,6 +14,8 @@ const UpdateEmployee = () => {
     email: "",
   });
 
+  const [addMsg, setAddMsg] = useState(""); // for displaying the message after adding an employee
+
   useEffect(() => {
     // Fetch employee details when the component mounts
     const fetchEmployeeDetails = async () => {
@@ -59,7 +61,8 @@ const UpdateEmployee = () => {
         `http://localhost:8484/api/v1/emp/employees/${employee._id}`,
         employee
       );
-      console.log(employee);
+      // console.log(employee);
+      setAddMsg("Employee Updated Successfully");
     } catch (e) {
       console.error(e);
     }
@@ -117,6 +120,9 @@ const UpdateEmployee = () => {
           </Col>
         </Row>
       </Container>
+      <div className="d-flex justify-content-center mt-5">
+        <h3 className="text-success">{addMsg}</h3>
+      </div>
     </>
   );
 };
