@@ -4,10 +4,9 @@ const router = express.Router();
 
 const User = require("../models/User")
 
-/*
-    password hashing: (other way to make password secure)
-    const bcrypt = require('bcrypt');  
-*/
+
+// password hashing: (other way to make password secure)
+const bcrypt = require('bcrypt');  
 
 /*
     signup Request Payload: 
@@ -21,16 +20,15 @@ router.post("/user/signup" , async (req,res) => {
     
     try{
         // destructure from req.body object
-        const {username,email,password} = req.body;
+        const {email,password} = req.body;
         
         // hash the password (option but make maxLength to 100 for password)
-        // const hashedPwd = await bcrypt.hash(password,10);
+        const hashedPwd = await bcrypt.hash(password,10);
 
         // create a new user
         const newUser = new User({
-            username:username,
             email:email,
-            password:password
+            password:hashedPwd
         });
 
         // save the user to the database c
@@ -56,28 +54,28 @@ router.post("/user/signup" , async (req,res) => {
 router.post("/user/login", async (req,res) => {
     try{
         // destructure to get user and password from req.body object
-        const {username,password} = req.body;
+        const {email,password} = req.body;
 
         //look for user with the username
-        const user = await User.findOne({username:username});
+        const user = await User.findOne({email:email});
 
-        // const hashedPwd = await bcrypt.hash("password1",10);
-        // const samePwd = await bcrypt.compare(password,user.password);
+        //user check password from db and hashed password from req.body
+        const samePwd = await bcrypt.compare(password,user.password);
 
         // if user uses username or email to login
-        if(username === user.username && password === user.password){
+        if(email === user.email && samePwd){
             res.status(200).json(
                 {
                     "status":true,
-                    "username":username,
-                    "message":`User ${username}! logged in successfully`
+                    "username":email,
+                    "message":`User ${email}! logged in successfully`
                 }
             );
         }else{
             res.status(401).json(
                 {
                     "status":false,
-                    "message":`Invalid username or password`
+                    "message":`Invalid email or password`
                 }
             );
         }

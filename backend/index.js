@@ -4,6 +4,9 @@ const cors = require('cors');
 const app = express();
 const SERVER_PORT = 8484;
 
+//.env file access
+require('dotenv').config();
+
 
 //middleware
 app.use(cors());
@@ -15,7 +18,7 @@ app.use(express.urlencoded({extended:true}));
 const mongoose = require("mongoose");
 
 // Enter your own mongodb connection string MONGODB_URI
-const  DB_CONNECTION_STRING = "mongodb+srv://prickedneedle11:x17rtxzy@cluster0.ehf8jjp.mongodb.net/F2023_comp3123-Assignment?retryWrites=true&w=majority"
+const  DB_CONNECTION_STRING = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ehf8jjp.mongodb.net/F2023_comp3123_assignment2?retryWrites=true&w=majority`;
 
 mongoose.connect(DB_CONNECTION_STRING,{
     useNewUrlParser:true,
