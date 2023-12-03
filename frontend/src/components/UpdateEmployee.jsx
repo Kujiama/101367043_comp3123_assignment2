@@ -74,7 +74,7 @@ const UpdateEmployee = () => {
         <Link to="/" className="btn btn-primary">
           <FontAwesomeIcon icon={faArrowLeft} />
         </Link>
-        <h1 className="m-5">Edit Employee</h1>
+        <h1 className="m-5">Update Employee</h1>
       </div>
       <Container className="w-25 bg-info p-5">
         <Row>
