@@ -5,13 +5,9 @@ const router = express.Router();
 const User = require("../models/User")
 
 
-// password hashing: (other way to make password secure)
-const bcrypt = require('bcrypt');  
-
 /*
     signup Request Payload: 
         { 
-            "username": "test1",
             "email": "test1@gmail.com",
             "password": "password1" 
         }
@@ -21,14 +17,11 @@ router.post("/user/signup" , async (req,res) => {
     try{
         // destructure from req.body object
         const {email,password} = req.body;
-        
-        // hash the password (option but make maxLength to 100 for password)
-        const hashedPwd = await bcrypt.hash(password,10);
 
         // create a new user
         const newUser = new User({
             email:email,
-            password:hashedPwd
+            password:password
         });
 
         // save the user to the database c
@@ -60,7 +53,7 @@ router.post("/user/login", async (req,res) => {
         const user = await User.findOne({email:email});
 
         //user check password from db and hashed password from req.body
-        const samePwd = await bcrypt.compare(password,user.password);
+        const samePwd = (password === user.password)?true:false;
 
         // if user uses username or email to login
         if(email === user.email && samePwd){
