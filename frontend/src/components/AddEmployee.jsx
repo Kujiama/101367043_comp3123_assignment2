@@ -1,100 +1,119 @@
-import React, { Component } from 'react'
-import { Container , Form, Row, Col, Button} from 'react-bootstrap'
-import { Link } from 'react-router-dom'
-import axios from 'axios'
+import { useState } from "react";
+import { Container, Form, Row, Col, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
-class AddEmployee extends Component {
+const AddEmployee = () => {
+  const [employee, setEmployee] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+  });
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            firstName: '',
-            lastName: '',
-            email: ''
-        }
+  const onChangeFirstName = (e) => {
+    setEmployee({
+      ...employee,
+      firstName: e.target.value,
+    });
+  };
+
+  const onChangeLastName = (e) => {
+    setEmployee({
+      ...employee,
+      lastName: e.target.value,
+    });
+  };
+
+  const onChangeEmail = (e) => {
+    setEmployee({
+      ...employee,
+      email: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault(); // prevent default action of the form which is to refresh the page
+
+      // create an object to send to the backend
+      const employeeObject = {
+        firstName: employee.firstName,
+        lastName: employee.lastName,
+        email: employee.email,
+      };
+
+      // send the object to the backend
+      await axios.post(
+        "http://localhost:8484/api/v1/emp/employees",
+        employeeObject
+      );
+
+      // reset the state
+      setEmployee({
+        firstName: "",
+        lastName: "",
+        email: "",
+      });
+
+      console.log(employeeObject);
+    } catch (e) {
+      console.error(e);
     }
+  };
 
-    onChangeFirstName = (e) => {
-        this.setState({
-            firstName: e.target.value
-        })
-    }
+  return (
+    <>
+      <div className="d-flex justify-content-between align-items-center">
+        <Link to="/" className="btn btn-primary">
+          <FontAwesomeIcon icon={faArrowLeft} />
+        </Link>
+        <h1 className="m-5">Add Employee</h1>
+      </div>
+      <Container className="w-25 bg-info p-5">
+        <Row>
+          <Col>
+            <Form onSubmit={handleSubmit}>
+              <Form.Group className="mb-3" controlId="firstName">
+                <Form.Label>First Name</Form.Label>
+                <Form.Control
+                  value={employee.firstName}
+                  type="text"
+                  placeholder="Enter First Name"
+                  onChange={(e) => onChangeFirstName(e)}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="lastName">
+                <Form.Label>Last Name</Form.Label>
+                <Form.Control
+                  value={employee.lastName}
+                  type="text"
+                  placeholder="Enter Last Name"
+                  onChange={(e) => onChangeLastName(e)}
+                />
+              </Form.Group>
+              <Form.Group className="mb-3" controlId="email">
+                <Form.Label>Email</Form.Label>
+                <Form.Control
+                  value={employee.email}
+                  type="email"
+                  placeholder="Enter Email"
+                  onChange={(e) => onChangeEmail(e)}
+                />
+              </Form.Group>
+              <Button className="btn btn-success" type="submit">
+                Submit
+              </Button>
+              <Link to="/" className="btn btn-danger">
+                Cancel
+              </Link>
+            </Form>
+          </Col>
+        </Row>
+      </Container>
+    </>
+  );
+};
 
-    onChangeLastName = (e) => {
-        this.setState({
-            lastName: e.target.value
-        })
-    }
-
-    onChangeEmail = (e) => {
-        this.setState({
-            email: e.target.value 
-        })
-    }
-
-    onSubmit = async (e) => {
-
-        try{
-            e.preventDefault(); // prevent default action of the form which is to refresh the page
-
-            // create an object to send to the backend
-            const employeeObject = {
-                firstName: this.state.firstName,
-                lastName: this.state.lastName,
-                email: this.state.email
-            }
-
-            // send the object to the backend
-            await axios.post('http://localhost:8484/api/v1/emp/employees', employeeObject)
-                .then(res => console.log(res.data));
-
-            // reset the state
-            this.setState({
-                firstName: '',
-                lastName: '',
-                email: ''
-            })
-
-            console.log(employeeObject);
-        }catch(e){
-            console.error(e);
-        }
-        
-    }
-
-
-    render() {
-        return (
-            <Container className='w-25 bg-info p-5'>
-                <h1>Add Employee</h1>
-                <Row>
-                    <Col>
-                        <Form>
-                            <Form.Group className="mb-3" controlId="firstName">
-                                <Form.Label>First Name</Form.Label>
-                                <Form.Control required value={this.state.firstName} type="text" placeholder="Enter First Name" onChange={e=>this.onChangeFirstName(e)}/>
-                            </Form.Group>
-                            <Form.Group className="mb-3" controlId="lastName">
-                                <Form.Label>Last Name</Form.Label>
-                                <Form.Control required value={this.state.lastName} type="text" placeholder="Enter Last Name" onChange={e=>this.onChangeLastName(e)}/>
-                            </Form.Group>
-                            <Form.Group className="mb-3" controlId="email">
-                                <Form.Label>Email</Form.Label>
-                                <Form.Control required value={this.state.email} type="email" placeholder="Enter Email" onChange={e=>this.onChangeEmail(e)}/>
-                            </Form.Group>
-                            <Link to="/" className='btn btn-success' type="submit" onClick={e=>this.onSubmit(e)}>
-                                Submit
-                            </Link>
-                            <Link to="/" className="btn btn-danger">
-                                Cancel
-                            </Link>
-                        </Form>
-                    </Col>
-                </Row>
-            </Container>
-    
-        )
-    }
-}
-
-export default AddEmployee
+export default AddEmployee;
